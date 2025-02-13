@@ -3,4 +3,4 @@ EMAIL = ""
 # password
 PWD = ""
 ITERS = 100
-COOKIES_ENABLED = False
+COOKIES_ENABLEd = False

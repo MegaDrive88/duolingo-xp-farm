@@ -22,11 +22,11 @@ pwd_inp.send_keys(PWD + Keys.ENTER)
 
 while True:
     try:
-        if (not COOKIES_ENABLED):
+        if (not COOKIES_ENABLEd):
             driver.execute_script("""
                 let l = document.querySelector(".fc-consent-root");
                 l.parentElement.removeChild(l);""")
-            COOKIES_ENABLED = True
+            COOKIES_ENABLEd = True
         practice_btn = driver.find_element(By.CSS_SELECTOR, r'a[href="/characters"]')
         practice_btn.click()
         break
