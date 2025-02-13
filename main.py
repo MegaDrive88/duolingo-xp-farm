@@ -32,7 +32,12 @@ while True:
         break
     except: pass
 
-
+def element_exist(by, value):
+    try:
+        _ = driver.find_element(by, value)
+        return True
+    except:
+        return False
 
 def start_lesson():
     start_btn = driver.find_element(By.CSS_SELECTOR, r'a[href="/alphabets/en/pronunciation"]')
@@ -45,14 +50,21 @@ def during_lesson():
     next_btn.click()
 
 def after_lesson():
-    end_btn = driver.find_element(By.CSS_SELECTOR, "button._1rcV8._1VYyp._1ursp._7jW2t._3DbUj._38g3s._2oGJR:not(._2wryV)")
-    end_btn.click()
+    proceed_btn = None
+    if (element_exist(By.CSS_SELECTOR, "button._1rcV8._1VYyp._1ursp._7jW2t._3DbUj._38g3s._2oGJR:not(._2wryV)")): 
+        proceed_btn = driver.find_element(By.CSS_SELECTOR, "button._1rcV8._1VYyp._1ursp._7jW2t._3DbUj._38g3s._2oGJR:not(._2wryV)")
+    elif (element_exist(By.CSS_SELECTOR, "button._1rcV8._1VYyp._1ursp._7jW2t._5eJl._3DbUj")):
+        proceed_btn = driver.find_element(By.CSS_SELECTOR, "button._1rcV8._1VYyp._1ursp._7jW2t._5eJl._3DbUj")
+    elif (element_exist(By.CSS_SELECTOR, "button._3xDVI._2V6ug._1ursp._7jW2t._1Z5a5._1CpJa")):
+        proceed_btn = driver.find_element(By.CSS_SELECTOR, "button._3xDVI._2V6ug._1ursp._7jW2t._1Z5a5._1CpJa")
+    if (proceed_btn == None): raise ValueError
+    else: proceed_btn.click()
 
 
 i = 0
 driver.execute_script("document.body.style.zoom='50%'")
 while True:
-    if(i == ITERS): break
+    if(i >= ITERS): break
     try:
         start_lesson()
     except:pass
