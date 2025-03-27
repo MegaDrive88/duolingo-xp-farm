@@ -20,6 +20,8 @@ username_inp.send_keys(EMAIL)
 pwd_inp = driver.find_element(By.ID, "web-ui2")
 pwd_inp.send_keys(PWD + Keys.ENTER)
 
+part = "1"
+
 while True:
     try:
         if (not COOKIES_ENABLEd):
@@ -43,11 +45,21 @@ def start_lesson():
     start_btn = driver.find_element(By.CSS_SELECTOR, r'a[href="/alphabets/en/pronunciation"]')
     start_btn.click()
 
-def during_lesson():
+def during_lesson(_part):
     skip_btn = driver.find_element(By.CSS_SELECTOR, "button._2V6ug._1ursp._7jW2t._2x7Co._3fo6Q")
-    skip_btn.click()
-    next_btn = driver.find_element(By.CLASS_NAME, "_1rcV8")
-    next_btn.click()
+    body = driver.find_element(By.CSS_SELECTOR, r'body')
+    if(element_exist(By.CSS_SELECTOR, "button._3xDVI._2V6ug._1ursp._7jW2t.YvvwP._3U5_i")):
+        skip_btn.click()
+        body.send_keys(Keys.ENTER)
+    elif (_part == "1" and element_exist(By.CSS_SELECTOR, "button._3fmUm._2V6ug._1ursp._7jW2t.notranslate._3ZtW_._2O7Ua._3U5_i._3Ymqr")):
+        for i in range(1, 5):
+            for j in range(5, 9):
+                body.send_keys(f"{i}{j}")
+        body.send_keys("1" + Keys.ENTER)
+        return "2"
+    else:
+        body.send_keys(_part + Keys.ENTER + Keys.ENTER)
+    return _part
 
 def after_lesson():
     proceed_btn = None
@@ -67,10 +79,11 @@ while True:
     if(i >= ITERS): break
     try:
         start_lesson()
+        part = "1"
     except:pass
     while True:
         try:
-            during_lesson()
+            part = during_lesson(part)
         except:
             try:
                 after_lesson()
